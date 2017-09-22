@@ -1,0 +1,16 @@
+<div id="category-form">
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="category-form-title">Name</label>
+      <input
+        id="category-form-title"
+        class="form-control"
+        type="text"
+        formControlName="name" />
+    </div>
+    <button
+      type="submit"
+      [disabled]="categoryForm.invalid"
+      class="btn btn-success">Save</button>
+  </form>
+</div>

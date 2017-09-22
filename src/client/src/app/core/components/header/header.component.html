@@ -1,0 +1,31 @@
+<header>
+  <nav class="navbar navbar-dark bg-dark navbar-expand">
+    <span class="navbar-brand">Todo Manager</span>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/todos/doing"
+          [class.active]="isActive('doing')">Todo<span class="badge badge-danger">{{ todoService.getNbTodo() }}</span></a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/todos/done"
+          [class.active]="isActive('done')">Done<span class="badge badge-success">{{ todoService.getNbDone() }}</span></a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/categories"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">Categories<span class="badge badge-success">{{ categoryService.getNbCategory() }}</span></a>
+      </li>
+    </ul>
+    <div class="form-inline my-2 my-lg-0">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="openTodoForm()">
+        <span class="oi oi-plus"></span>
+      </button>
+    </div>
+  </nav>
+</header>

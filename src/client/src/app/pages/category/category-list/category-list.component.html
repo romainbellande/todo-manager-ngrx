@@ -1,0 +1,23 @@
+<section id="category-list">
+  <table class="table table-striped" *ngIf="categories && categories.length; else emptycategories">
+    <thead class="thead-inverse">
+      <tr>
+        <th class="th-actions">Actions</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let category of categories">
+            <td class="td-actions">
+              <button type="button" class="btn btn-primary" (click)="isEditMod(category) ? undo() : edit(category)">
+                <span class="oi" [ngClass]="isEditMod(category) ? 'oi-action-undo' : 'oi-pencil' "></span>
+              </button>
+              <button type="button" class="btn btn-danger" (click)="remove(category)">
+                <span class="oi oi-trash"></span>
+              </button>
+            </td>
+            <td class="align-middle">{{ category.name }}</td>
+        </tr>
+    </tbody>
+  </table>
+</section>

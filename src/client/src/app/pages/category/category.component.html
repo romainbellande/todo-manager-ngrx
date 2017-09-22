@@ -1,0 +1,10 @@
+<app-page id="category" [isLoading]="!categoryService.crud.list">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <app-category-form></app-category-form>
+    </div>
+    <div class="col-12 col-md-6">
+      <app-category-list [categories]="categoryService.crud.list"></app-category-list>
+    </div>
+  </div>
+</app-page>

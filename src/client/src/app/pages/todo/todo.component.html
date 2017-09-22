@@ -1,0 +1,11 @@
+<app-page id="todo" [isLoading]="!todoService.crud.list">
+  <ul class="nav nav-tabs">
+    <li class="nav-item" *ngFor="let category of categoryService.crud.list">
+      <a
+        class="nav-link"
+        routerLinkActive="active"
+        [routerLink]="[getRoute(category)]">{{ category.name }}<span class="badge badge-secondary">{{ getTodos(category).length }}</span></a>
+    </li>
+  </ul>
+  <app-todo-list [mod]="mod" [todos]="getTodos(getCategory())"></app-todo-list>
+</app-page>
