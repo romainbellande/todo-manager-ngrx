@@ -1,11 +1,12 @@
-<app-page id="todo" [isLoading]="!todoService.crud.list">
+<app-page id="todo" [isLoading]="!categories$ | async">
   <ul class="nav nav-tabs">
-    <li class="nav-item" *ngFor="let category of categoryService.crud.list">
+    <li class="nav-item" *ngFor="let category of categories$ | async">
       <a
         class="nav-link"
         routerLinkActive="active"
-        [routerLink]="[getRoute(category)]">{{ category.name }}<span class="badge badge-secondary">{{ getTodos(category).length }}</span></a>
+        (click)="setCategory(category.name)"
+        [routerLink]="[getRoute(category)]">{{ category.name }}<span class="badge badge-secondary">{{ getTodosLength(category) | async }}</span></a>
     </li>
   </ul>
-  <app-todo-list [mod]="mod" [todos]="getTodos(getCategory())"></app-todo-list>
+  <app-todo-list [mod]="mod"></app-todo-list>
 </app-page>

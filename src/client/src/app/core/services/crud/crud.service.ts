@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import { Endpoint, Entity } from '../../../../../../common/interfaces';
 import { CoreConfig } from '../../../../../../common/config/core.config';
@@ -60,10 +61,10 @@ export class CrudService<T extends Entity> {
   public update(body: T): Observable<T> {
     return this.http.patch(this.getEndpoint(body), body)
       .map((res: T) => {
-        if (this.list) {
-          const index = this.list.findIndex(item => item._id === res._id);
-          Object.assign(this.list[index], res);
-        }
+        // if (this.list) {
+        //   const index = this.list.findIndex(item => item._id === res._id);
+        //   Object.assign(this.list[index], res);
+        // }
         return res;
       });
   }

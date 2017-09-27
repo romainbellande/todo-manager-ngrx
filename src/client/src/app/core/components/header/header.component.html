@@ -6,20 +6,20 @@
         <a
           class="nav-link"
           routerLink="/todos/doing"
-          [class.active]="isActive('doing')">Todo<span class="badge badge-danger">{{ todoService.getNbTodo() }}</span></a>
+          [class.active]="isActive('doing')">Todo<span class="badge badge-danger">{{ nbTodoDoing | async }}</span></a>
       </li>
       <li class="nav-item">
         <a
           class="nav-link"
           routerLink="/todos/done"
-          [class.active]="isActive('done')">Done<span class="badge badge-success">{{ todoService.getNbDone() }}</span></a>
+          [class.active]="isActive('done')">Done<span class="badge badge-success">{{ nbTodoDone | async }}</span></a>
       </li>
       <li class="nav-item">
         <a
           class="nav-link"
           routerLink="/categories"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">Categories<span class="badge badge-success">{{ categoryService.getNbCategory() }}</span></a>
+          [routerLinkActiveOptions]="{ exact: true }">Categories<span class="badge badge-success">{{ nbCategory | async }}</span></a>
       </li>
     </ul>
     <div class="form-inline my-2 my-lg-0">

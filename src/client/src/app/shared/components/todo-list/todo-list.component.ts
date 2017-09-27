@@ -1,25 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 import { TodoService, CategoryService } from '../../../core/services';
 import { Todo, Category } from '../../../../../../common/interfaces';
 import { TodoFormComponent } from '../../../core/components/todo-form/todo-form.component';
+import { AppState } from '../../../common/ngrx';
+import { fromCategory, fromTodo } from '../../../common/ngrx';
 
 type SortType = -1 | 1 | 0;
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss']
+  styleUrls: ['./todo-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent implements OnInit {
-  @Input() todos: Array<Todo>;
+  // @Input() todos$: Observable<Array<Todo>>;
   @Input() mod: 'doing' | 'done';
+  category$: Store<Category>;
+  todos$: Store<Todo[]>;
 
   constructor(private todoService: TodoService,
               private categoryService: CategoryService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private store: Store<AppState>) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.category$ = this.store.select(fromCategory.selectors.getSelected);
+    this.todos$ = this.store.select(fromTodo.selectors.getTodoByCategory);
+  }
 
   public edit(todo: Todo): void {
     this.todoService.editTodo = todo;
@@ -27,29 +38,31 @@ export class TodoListComponent implements OnInit {
   }
 
   public filterTodos(todos: Array<Todo>): Array<Todo> {
-    return this.todos.filter(item => this.mod === 'done' ? item.isChecked : !item.isChecked);
+    return todos.filter(item => this.mod === 'done' ? item.isChecked : !item.isChecked);
   }
 
-  public getCategoryName(todo: Todo): string {
-    const category = this.categoryService.crud.list.find(a => a._id === todo.category);
-    return category ? category.name : '';
+  public getCategoryName(todo: Todo): Observable<string> {
+    return this.category$
+      .map(cat => cat ? cat.name : '');
+  }
+
+  public isEmpty(todos: Array<Todo>): boolean {
+   return !this.filterTodos(todos).length;
   }
 
   public remove(todo: Todo): void {
-    this.todoService.crud.remove(todo)
-      .subscribe();
+    this.store.dispatch({ type: fromTodo.actions.REMOVE_TODO, payload: todo });
   }
 
   public sortTodos(todos: Array<Todo>): Array<Todo> {
-    return this.todos.sort((a, b) => {
+    return todos.sort((a, b) => {
       return (this.compareCheck(a, b) || this.compareCreatedAt(a, b));
     });
   }
 
   public toggleCheck(todo: Todo): void {
-    todo.isChecked = !todo.isChecked;
-    this.todoService.crud.update(todo)
-      .subscribe();
+    const updatedTodo: Todo = Object.assign({}, todo, { isChecked: !todo.isChecked });
+    this.store.dispatch({ type: fromTodo.actions.UPDATE_TODO, payload: updatedTodo });
   }
 
   private booleanToInt(val: boolean): number {

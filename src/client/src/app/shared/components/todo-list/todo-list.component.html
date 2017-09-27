@@ -1,5 +1,5 @@
 <section id="app-todo-list">
-  <table class="table table-striped" *ngIf="todos && todos.length; else emptyTodos">
+  <table class="table table-striped" *ngIf="!isEmpty(todos$ | async); else emptyTodos">
     <thead class="thead-inverse">
       <tr>
         <th class="th-actions">Actions</th>
@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let todo of filterTodos(todos)" >
+      <tr *ngFor="let todo of filterTodos(todos$ | async)" >
         <td class="td-actions">
           <div class="btn-group" role="group" aria-label="Action buttons">
             <button type="button" class="btn" [ngClass]="todo.isChecked ? 'btn-success': 'btn-secondary'" (click)="toggleCheck(todo)">
@@ -25,7 +25,7 @@
         </td>
         <td class="align-middle">{{ todo.title }}</td>
         <td class="align-middle">{{ todo.description }}</td>
-        <td class="align-middle">{{ getCategoryName(todo) }}</td>
+        <td class="align-middle">{{ getCategoryName(todo) | async }}</td>
       </tr>
     </tbody>
   </table>

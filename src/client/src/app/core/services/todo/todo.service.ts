@@ -15,7 +15,7 @@ export class TodoService {
   constructor(http: HttpClient) {
     this.crud = new CrudService<Todo>(http);
     this.crud.setup(todoEndpoint, {
-      enableList: true
+      enableList: false
     });
   }
 
