@@ -47,11 +47,12 @@ export class TodoListComponent implements OnInit {
   }
 
   public isEmpty(todos: Array<Todo>): boolean {
+    console.log('isEmpty', todos);
    return !this.filterTodos(todos).length;
   }
 
   public remove(todo: Todo): void {
-    this.store.dispatch({ type: fromTodo.actions.REMOVE_TODO, payload: todo });
+    this.store.dispatch({ type: fromTodo.actions.$.REMOVE, payload: todo });
   }
 
   public sortTodos(todos: Array<Todo>): Array<Todo> {
@@ -62,7 +63,7 @@ export class TodoListComponent implements OnInit {
 
   public toggleCheck(todo: Todo): void {
     const updatedTodo: Todo = Object.assign({}, todo, { isChecked: !todo.isChecked });
-    this.store.dispatch({ type: fromTodo.actions.UPDATE_TODO, payload: updatedTodo });
+    this.store.dispatch({ type: fromTodo.actions.$.UPDATE, payload: updatedTodo });
   }
 
   private booleanToInt(val: boolean): number {

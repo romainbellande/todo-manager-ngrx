@@ -2,8 +2,8 @@ import { RouterStateSerializer } from '@ngrx/router-store';
 import { RouterStateSnapshot, Params } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 
-import { TodoState } from './todo/todo.states';
-import { CategoryState } from './category/category.states';
+import { EntityState } from './utils/entity';
+import { Category, Todo } from '../../../../../common/interfaces';
 
 /**
  * The RouterStateSerializer takes the current RouterStateSnapshot
@@ -30,8 +30,8 @@ export class CustomRouterStateSerializer
 }
 
 export interface AppState {
-  todo: TodoState;
-  category: CategoryState;
+  todo: EntityState<Todo>;
+  category: EntityState<Category>;
   router:  fromRouter.RouterReducerState<RouterStateUrl>;
 }
 

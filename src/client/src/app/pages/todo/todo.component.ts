@@ -8,9 +8,7 @@ import { TodoService, CategoryService } from '../../core/services';
 import { Todo, Category } from '../../../../../common/interfaces';
 import { AppState,
          fromTodo,
-         fromCategory,
-         TodoState,
-         CategoryState } from '../../common/ngrx';
+         fromCategory } from '../../common/ngrx';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -51,7 +49,7 @@ export class TodoComponent implements OnInit {
   }
 
   public setCategory(categoryName: string): void {
-    this.store.dispatch({ type: fromCategory.actions.SELECT_CATEGORY_BY_NAME, payload: categoryName.toLowerCase() });
+    this.store.dispatch({ type: fromCategory.actions.$.SELECT_BY_NAME, payload: categoryName.toLowerCase() });
   }
 
   private isMod(todo: Todo, mod: 'doing' | 'done'): boolean {

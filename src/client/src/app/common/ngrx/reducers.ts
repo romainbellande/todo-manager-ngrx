@@ -36,9 +36,9 @@ import { combineReducers, createSelector, createFeatureSelector } from '@ngrx/st
  * notation packages up all of the exports into a single object.
  */
 
-import { fromTodo, TodoState } from './todo';
+import { fromTodo } from './todo';
 // import * as fromCategory from './category/category.reducer';
-import { fromCategory, CategoryState } from './category';
+import { fromCategory } from './category';
 import { AppState, RouterStateUrl } from './states';
 
 // console.log all actions

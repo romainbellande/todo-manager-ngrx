@@ -1,44 +1,29 @@
 import { ActionReducer } from '@ngrx/store';
 import { Category } from '../../../../../../common/interfaces';
-import * as CategoryActions from './category.actions';
-import { CategoryState, initialState } from './category.states';
+import { $, All } from './category.actions';
+import { EntityState, initialState, Adapter } from '../utils/entity';
 
+export function reducer(state = initialState, action: All): EntityState<Category> {
+  const adapter = new Adapter<Category>(state, action.payload);
 
-export function reducer(state = initialState, action: CategoryActions.All): CategoryState {
   switch (action.type) {
-    case CategoryActions.ADD_CATEGORY: {
-      return {
-        ids: [...state.ids, action.payload._id],
-        entities: Object.assign({}, state.entities, { [action.payload._id as string]: action.payload}),
-        selectedCategoryId: action.payload._id
-      };
+    case $.ADD: {
+      return adapter.add();
     }
 
-    case CategoryActions.LOAD_CATEGORIES_SUCCESS: {
-      const categories = action.payload;
-      const categoriesIds = categories.map(a => a._id);
-      const newCategories: {[id: string]: Category} = {};
-      categories.map(a => Object.assign(newCategories, {[a._id]: a}) );
-      return {
-        ids: categoriesIds,
-        entities: newCategories,
-        selectedCategoryId: state.selectedCategoryId
-      };
+    case $.LOAD_SUCCESS: {
+      return adapter.loadSuccess();
     }
 
-    case CategoryActions.SELECT_CATEGORY: {
+    case $.SELECT: {
+      return adapter.select();
+    }
+
+    case $.SELECT_BY_NAME: {
       return {
         ids: state.ids,
         entities: state.entities,
-        selectedCategoryId: action.payload
-      };
-    }
-
-    case CategoryActions.SELECT_CATEGORY_BY_NAME: {
-      return {
-        ids: state.ids,
-        entities: state.entities,
-        selectedCategoryId: Object.values(state.entities)
+        selectedId: Object.values(state.entities)
           .find(entity => entity.name.toLowerCase() === action.payload)._id
       };
     }

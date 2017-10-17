@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { TodoService,
          CategoryService } from './core/services';
 import { AppState } from './common/ngrx/states';
-import { LOAD_TODOS } from './common/ngrx/todo/todo.actions';
-import { LOAD_CATEGORIES } from './common/ngrx/category/category.actions';
+import { fromTodo } from './common/ngrx/todo';
+import { fromCategory } from './common/ngrx/category';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
               private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch({ type: LOAD_CATEGORIES });
-    this.store.dispatch({ type: LOAD_TODOS });
+    this.store.dispatch({ type: fromCategory.actions.$.LOAD });
+    this.store.dispatch({ type: fromTodo.actions.$.LOAD });
   }
 }

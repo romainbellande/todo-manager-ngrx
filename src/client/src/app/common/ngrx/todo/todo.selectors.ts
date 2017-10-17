@@ -14,7 +14,7 @@ export const getTodoByCategory: MemoizedSelector<object, Todo[]> = createSelecto
   getAppState,
   state => state.todo.ids
     .map(id => state.todo.entities[id])
-    .filter(todo => todo.category === state.category.selectedCategoryId)
+    .filter(todo => todo.category === state.category.selectedId)
 );
 
 export const getNbTodoDoing: MemoizedSelector<object, number> = createSelector(
